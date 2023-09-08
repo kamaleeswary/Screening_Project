@@ -1,0 +1,113 @@
+<!--Modal Header based on action type-->
+<div class="modal-header">
+    <h4 class="modal-title">{{ type == 'update' ? 'Update Book Details' : 'Add Book'}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalRef.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!--Modal header End-->
+<!--Modal body Start-->
+<div class="modal-body">
+    <div class="card lesson-border">
+        <!--Update the book details Start-->
+        <div class="card-body" *ngIf="type === 'update'">
+            <!-- Title -->
+            <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+                    <h6 class="mb-0"> Title</h6>
+                </div>
+                <div class="col-md-9 pe-3">
+                    {{ !editmode ? book.title : ' '}} <input [(ngModel)]="book.title" *ngIf="editmode" type="text">
+                    <button *ngIf="!editmode" class="float-end style" (click)="edit()" data-mdb-toggle="tooltip"
+                        title="Update the book">
+                        <i class="fa far fa-edit" style="font-size:25px;"></i>
+                    </button>
+                    <button *ngIf="editmode" class="style" (click)="save(book)"> <i class="fa fa-save"
+                            style="font-size:25px;color: green;"></i></button>
+                    <button *ngIf="editmode" class="style" (click)="cancel()"><i class="fa fa-times-circle"
+                            style="color:red; font-size:25px;"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Image Url -->
+            <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+                    <h6 class="mb-0"> Image Url</h6>
+                </div>
+                <div class="col-md-9 pe-3">
+                    {{ book.imageUrl }}
+                </div>
+            </div>
+            <!-- Purchase Link -->
+            <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+                    <h6 class="mb-0"> Purchase Link</h6>
+                </div>
+                <div class="col-md-9 pe-3">
+                    {{ book.purchaseLink }}
+                </div>
+            </div>
+            <!-- Publish Date -->
+            <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+                    <h6 class="mb-0">Publish Date</h6>
+                </div>
+                <div class="col-md-9 pe-3">
+                    {{ book.PublishDate }}
+                </div>
+            </div>
+        </div>
+        <!--Update the book details End-->
+        <!-- Add the book details Start-->
+        <div class="card-body mt-3" *ngIf="type === 'add'">
+            <!--Form Start-->
+            <form #form="ngForm" [formGroup]="addBookForm" (ngSubmit)="onSubmit()" class="form">
+                <!--Title-->
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input id="title" type="title" formControlName="title" class="form-control"
+                        [ngClass]="{ 'is-invalid': form.submitted && controls.title.invalid }">
+                    <div *ngIf="form.submitted && controls.title.invalid" class="text-danger">
+                        <small *ngIf="controls.title.errors?.required">Title is required.</small>
+                    </div>
+                </div>
+                <!--Image Url-->
+                <div class="form-group">
+                    <label for="imageUrl">Image Url</label>
+                    <input id="imageUrl" type="imageUrl" formControlName="imageUrl" class="form-control"
+                        [ngClass]="{ 'is-invalid': form.submitted && controls.imageUrl.invalid }">
+                    <div *ngIf="form.submitted && controls.imageUrl.invalid" class="text-danger">
+                        <small *ngIf="controls.imageUrl.errors?.required">Image Url is required.</small>
+                    </div>
+                </div>
+                <!--Purchase Link-->
+                <div class="form-group">
+                    <label for="purchaseLink">Purchase Link</label>
+                    <input id="purchaseLink" type="purchaseLink" formControlName="purchaseLink" class="form-control"
+                        [ngClass]="{ 'is-invalid': form.submitted && controls.purchaseLink.invalid }">
+                    <div *ngIf="form.submitted && controls.purchaseLink.invalid" class="text-danger">
+                        <small *ngIf="controls.purchaseLink.errors?.required">Purchase Link is required.</small>
+                    </div>
+                </div>
+                <!--Publish Date-->
+                <div class="form-group">
+                    <label for="PublishDate">Publish Date</label>
+                    <input id="PublishDate" type="PublishDate" formControlName="PublishDate" class="form-control"
+                        [ngClass]="{ 'is-invalid': form.submitted && controls.PublishDate.invalid }">
+                    <div *ngIf="form.submitted && controls.PublishDate.invalid" class="text-danger">
+                        <small *ngIf="controls.PublishDate.errors?.required">Publish Date is required.</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success float-end">Submit</button>
+                </div>
+            </form>
+            <!--Form End-->
+        </div>
+        <!--Add the book details End-->
+    </div>
+</div>
+<!--Modal Boday End-->
+<div class="modal-footer" *ngIf="type === 'update'">
+    <button type="button" class="btn btn-primary" (click)="modalRef.close('Close click');">Done</button>
+</div>
